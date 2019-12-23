@@ -1,0 +1,22 @@
+Package: shinymath
+Version: 0.0.0.9001
+Title: Tools for Using Symbolic Math in 'Shiny' Apps
+Authors@R: c(
+    person(given = "Mikkel Meyer", family = "Andersen",
+        email = "mikl@math.aau.dk", role = c("aut", "cre", "cph"))
+  )
+Maintainer: Mikkel Meyer Andersen <mikl@math.aau.dk>
+Encoding: UTF-8
+Description: Tools for using symbolic math in Shiny apps.
+Depends: R (>= 3.3.0)
+Imports:
+    Ryacas (>= 1.1.1)
+License: GPL
+SystemRequirements: C++11
+URL: https://github.com/r-cas/shinymath
+BugReports: https://github.com/r-cas/shinymath/issues
+Roxygen: list(markdown = TRUE, roclets = c("rd", "collate", "namespace"))
+RoxygenNote: 7.0.2
+VignetteBuilder: knitr
+Suggests: 
+    testthat (>= 2.1.0)

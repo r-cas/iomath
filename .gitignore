@@ -1,0 +1,17 @@
+Meta
+doc
+docs/paper.html
+.Rhistory
+.RData
+*~
+*.o
+*.so
+*.rds
+.Rproj.user
+vignettes/*.html
+revdep
+^README.knit.md$
+^README.utf8.md$
+release-featured-images/*.pdf
+release-featured-images/*.tex
+release-featured-images/*.png
