@@ -1,0 +1,51 @@
+---
+title: "Reference"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{reference}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(shinymath)
+```
+
+
+```{r}
+e <- Ryacas::ysym("((2*Sin(2+x))^2 + (a+b)^2)^3")
+e
+o <- Ryacas::tex(e)
+o
+```
+
+$$
+`r o`
+$$
+
+
+```{r}
+o2 <- hbtex(e)
+o2
+```
+
+$$
+`r o2`
+$$
+
+```{r}
+o3 <- btex(e)
+o3
+```
+
+$$
+`r o3`
+$$
+
