@@ -22,3 +22,5 @@
 ^README.knit.md$
 ^README.utf8.md$
 ^release-featured-images
+^docs$
+^pkgdown$

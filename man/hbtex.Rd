@@ -12,3 +12,9 @@ hbtex(x)
 \description{
 Make hard brackets
 }
+\examples{
+A <- Ryacas::ysym(matrix(1:9, 3, 3))
+Ryacas::tex(A)
+btex(A)
+hbtex(A)
+}

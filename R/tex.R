@@ -99,6 +99,11 @@ replace_brackets <- function(x,
 #' @param x yac_symbol
 #' @param brackets Symbols to use as brackets. Reused as necesary.
 #' 
+#' @examples 
+#' e <- Ryacas::ysym("((2*Sin(2+x))^2 + (a+b)^2)^3")
+#' Ryacas::tex(e)
+#' btex(e)
+#' hbtex(e)
 #' @importFrom Ryacas tex
 #' @export
 btex <- function(x, 
@@ -119,6 +124,11 @@ btex <- function(x,
 #' 
 #' @inheritParams btex
 #' 
+#' @examples 
+#' A <- Ryacas::ysym(matrix(1:9, 3, 3))
+#' Ryacas::tex(A)
+#' btex(A)
+#' hbtex(A)
 #' @importFrom Ryacas tex
 #' @export
 hbtex <- function(x) {

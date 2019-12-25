@@ -14,3 +14,9 @@ btex(x, brackets = list(c("{", "}"), c("[", "]"), c("(", ")")))
 \description{
 Make brackets to different types.
 }
+\examples{
+e <- Ryacas::ysym("((2*Sin(2+x))^2 + (a+b)^2)^3")
+Ryacas::tex(e)
+btex(e)
+hbtex(e)
+}
