@@ -3,11 +3,9 @@
 
 get_safe_env_copy <- function() {
   safe_functions <- c(
+    "(",
     getGroupMembers("Math"),
-    getGroupMembers("Arith"),
-    #  getGroupMembers("Compare"),
-    #"<-", "{", "("
-    "("
+    getGroupMembers("Arith")
   )
   
   safe_env <- new.env(parent = emptyenv())
