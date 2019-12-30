@@ -2,6 +2,7 @@
 
 export(btex)
 export(hbtex)
+export(safe_eval)
 importFrom(Ryacas,tex)
 importFrom(dequer,pop)
 importFrom(dequer,push)
