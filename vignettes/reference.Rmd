@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 library(shinymath)
 ```
 
+## Conversion to `tex`
 
 ```{r}
 e <- Ryacas::ysym("((2*Sin(2+x))^2 + (a+b)^2)^3")
@@ -48,4 +49,58 @@ o3
 $$
 `r o3`
 $$
+
+
+## Safe evaluation
+
+```{r}
+safe_eval("2.2", vars = NULL)
+safe_eval("2.2*x^2", vars = list(x = 0.2))
+safe_eval("2,2*x^2", vars = list(x = 0.2))
+```
+
+```{r}
+safe_eval("2.2; 1.2")
+```
+
+```{r, error = TRUE}
+safe_eval("c(2.2, 1.2)", replace_comma = FALSE)
+safe_eval("2,2x^2", vars = list(x = 0.2))
+```
+
+
+## Comparing
+
+```{r}
+grd <- expand.grid(x = seq(-10, 10, length.out = 10))
+answer <- Ryacas::ysym("2.2*x^2")
+compare_reply_answer(reply = "2.2*x^2", 
+                     answer = answer, 
+                     compare_grid = grd)
+compare_reply_answer(reply = "2.3*x^2", 
+                     answer = answer, 
+                     compare_grid = grd)
+```
+
+```{r}
+m <- matrix(c("2+z^3", "2*sin(x)", "3*y^2", "1.1*x^2"), 2, 2)
+m
+ans <- Ryacas::ysym(m)
+ans
+grd <- expand.grid(x = seq(-10, 10, length.out = 5),
+                   y = seq(-10, 10, length.out = 5),
+                   z = seq(-10, 10, length.out = 5))
+compare_reply_answer(reply = m, 
+                     answer = ans, 
+                     compare_grid = grd)
+compare_reply_answer(reply = m[1, 1], 
+                     answer = ans, 
+                     compare_grid = grd)
+m2 <- apply(m, 2, paste0, '+0.1')
+m2
+compare_reply_answer(reply = m2, 
+                     answer = ans, 
+                     compare_grid = grd)
+```
+
 
