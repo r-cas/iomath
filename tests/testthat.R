@@ -1,4 +1,4 @@
 library(testthat)
-library(shinymath)
+library(iomath)
 
-test_check("shinymath")
+test_check("iomath")
