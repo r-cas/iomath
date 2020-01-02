@@ -83,11 +83,13 @@ replace_brackets <- function(x,
   for (i in rev(seq_len(nrow(tree)))) {
     # i <- 8L
     ele <- tree[i, ]
-    ele
+    ele$repl <- paste0(" ", ele$repl, " ")
     
     #substring(y, ele$pos, ele$pos + ele$len) <- ele$repl
     stringi::stri_sub(y, ele$pos, ele$pos + ele$len) <- ele$repl
   }
+  
+  y <- gsub("[ ]+", " ", y) # removing excess spaces
   
   return(y)
 }
@@ -108,14 +110,14 @@ replace_brackets <- function(x,
 #' @export
 btex <- function(x, 
                  brackets = list(
-                   c("{", "}"),
+                   c("\\{", "\\}"),
                    c("[", "]"),
                    c("(", ")")
                  )) {
   stopifnot(is(x, "yac_symbol"))
   
   o <- Ryacas::tex(x)
-  o2 <- replace_brackets(o)
+  o2 <- replace_brackets(o, brackets = brackets)
   
   return(o2)
 }

@@ -31,6 +31,7 @@ $$
 `r o`
 $$
 
+All as hard brackets:
 
 ```{r}
 o2 <- hbtex(e)
@@ -41,6 +42,8 @@ $$
 `r o2`
 $$
 
+Customised bracketing:
+
 ```{r}
 o3 <- btex(e)
 o3
@@ -48,6 +51,20 @@ o3
 
 $$
 `r o3`
+$$
+
+An argument specifying `brackets` can be given (recycled):
+
+```{r}
+o4 <- btex(e, 
+           brackets = list(
+             c("\\langle", "\\rangle"),
+             c("\\{", "\\}")))
+o4
+```
+
+$$
+`r o4`
 $$
 
 
