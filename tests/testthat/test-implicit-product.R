@@ -26,3 +26,11 @@ test_that("insert_product_simple", {
   }
 })
 
+
+if (FALSE) {
+  microbenchmark::microbenchmark(
+    regex = lapply(y, function(z) insert_product_regex(z[1L])),
+    simple = lapply(y, function(z) insert_product_simple(z[1L])), 
+    times = 10
+  )
+}
