@@ -13,13 +13,17 @@ single_compare <- function(reply,
   
   # Expect no variables
   if (is.null(compare_grid)) {
+    if (length(all.vars(answer_expr)) > 0L) {
+      stop("Variables are present, please include grid values")
+    }
+    
     val_answer <- eval(answer_expr)
     val_reply <- safe_eval(reply, 
                            replace_comma = replace_comma, 
                            insert_products = insert_products,
                            allowed_functions = allowed_functions
                            )
-    
+
     if (abs(val_answer - val_reply) > ans_tol) {
       return(FALSE)
     }
@@ -31,13 +35,15 @@ single_compare <- function(reply,
   for (i in seq_len(nrow(compare_grid))) {
     vars <- compare_grid[i, , drop = FALSE]
     
-    val_answer <- eval(answer_expr, envir = vars)
+    # Must be first to catch unprovided variables (checked in safe_eval())
     val_reply <- safe_eval(reply, 
                            vars = vars, 
                            replace_comma = replace_comma, 
                            insert_products = insert_products,
                            allowed_functions = allowed_functions)
 
+    val_answer <- eval(answer_expr, envir = vars)
+    
     if (abs(val_answer - val_reply) > ans_tol) {
       return(FALSE)
     }
