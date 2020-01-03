@@ -26,7 +26,6 @@ test_that("insert_product_simple", {
   }
 })
 
-
 if (FALSE) {
   microbenchmark::microbenchmark(
     regex = lapply(y, function(z) insert_product_regex(z[1L])),
@@ -34,3 +33,36 @@ if (FALSE) {
     times = 10
   )
 }
+
+
+
+
+
+
+
+y_adv <- list(
+  c("2(1+2)", "2*(1+2)"),
+  c("x(y)", "x*(y)"),
+  
+  c("(1+2)x", "(1+2)*x"), 
+  c("(1+2)3", "(1+2)3"), # Not allowed; not conventional to do
+  
+  c("(1+2)(2+1)", "(1+2)*(2+1)"),
+  c("x(2+1)+sin(y)", "x*(2+1)+sin(y)"),
+  c("sin(2+1)+x(y+1)", "sin(2+1)+x*(y+1)"),
+  c("sin(2x+1)", "sin(2*x+1)"),
+  
+  c("3sin(cos(2x)+1)", "3*sin(cos(2*x)+1)") # cannot
+)
+
+# insert_product_advanced("3sin(cos(2x)+1)")
+test_that("insert_product_advanced", {
+  for (i in seq_along(y)) {
+    expect_equal(y[[i]][2L], insert_product_advanced(y[[i]][1L]), info = paste0("y: i = ", i))
+  }
+  
+  for (i in seq_along(y_adv)) {
+    expect_equal(y_adv[[i]][2L], 
+                 insert_product_advanced(y_adv[[i]][1L]), info = paste0("y_adv: i = ", i))
+  }
+})
