@@ -12,7 +12,8 @@ test_that("btex", {
   o <- Ryacas::tex(e)
   o2 <- btex(e)
 
-  expect_equal(o2, "\\left\\{\\left[2 \\sin \\left(x + 2\\right)\\right] ^{2} + \\left[a + b\\right] ^{2}\\right\\} ^{3}")
+  expect_equal(o2, paste0(" \\left\\{ \\left[ 2 \\sin \\left( x + 2 \\right) \\right] ^{2}", 
+                          " + \\left[ a + b \\right] ^{2} \\right\\} ^{3}"))
 })
 
 

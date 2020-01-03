@@ -4,7 +4,7 @@
 \alias{btex}
 \title{Bracket controlled tex output}
 \usage{
-btex(x, brackets = list(c("{", "}"), c("[", "]"), c("(", ")")))
+btex(x, brackets = list(c("\\\\{", "\\\\}"), c("[", "]"), c("(", ")")))
 }
 \arguments{
 \item{x}{yac_symbol}

@@ -85,7 +85,6 @@ replace_brackets <- function(x,
     ele <- tree[i, ]
     ele$repl <- paste0(" ", ele$repl, " ")
     
-    #substring(y, ele$pos, ele$pos + ele$len) <- ele$repl
     stringi::stri_sub(y, ele$pos, ele$pos + ele$len) <- ele$repl
   }
   
