@@ -3,6 +3,7 @@
 export(btex)
 export(compare_reply_answer)
 export(hbtex)
+export(make_products_explicit)
 export(safe_eval)
 importFrom(Ryacas,as_r)
 importFrom(Ryacas,tex)

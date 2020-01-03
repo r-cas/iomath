@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Safely eval a string as an expression — safe_eval • iomath</title>
+<title>Make implicit products explicit — make_products_explicit • iomath</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Safely eval a string as an expression — safe_eval" />
-<meta property="og:description" content="Safely eval a string as an expression" />
+<meta property="og:title" content="Make implicit products explicit — make_products_explicit" />
+<meta property="og:description" content="Make implicit products explicit" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,41 +117,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Safely eval a string as an expression</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-cas/iomath/blob/master/R/safe-eval.R'><code>R/safe-eval.R</code></a></small>
-    <div class="hidden name"><code>safe_eval.Rd</code></div>
+    <h1>Make implicit products explicit</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-cas/iomath/blob/master/R/implicit-product.R'><code>R/implicit-product.R</code></a></small>
+    <div class="hidden name"><code>make_products_explicit.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Safely eval a string as an expression</p>
+    <p>Make implicit products explicit</p>
     </div>
 
-    <pre class="usage"><span class='fu'>safe_eval</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>replace_comma</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>insert_products</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>allowed_functions</span> <span class='kw'>=</span> <span class='fu'>getGroupMembers</span>(<span class='st'>"Math"</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>make_products_explicit</span>(<span class='no'>x</span>, <span class='kw'>allowed_functions</span> <span class='kw'>=</span> <span class='fu'>getGroupMembers</span>(<span class='st'>"Math"</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>string to evaluate</p></td>
-    </tr>
-    <tr>
-      <th>vars</th>
-      <td><p>list with variable values</p></td>
-    </tr>
-    <tr>
-      <th>replace_comma</th>
-      <td><p>Replace ',' with '.' before parsing</p></td>
-    </tr>
-    <tr>
-      <th>insert_products</th>
-      <td><p>Make implicit products explicit</p></td>
+      <td><p>user input</p></td>
     </tr>
     <tr>
       <th>allowed_functions</th>
@@ -161,7 +143,7 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>safe_eval</span>(<span class='st'>"2+2"</span>)</div><div class='output co'>#&gt; [1] 4</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>make_products_explicit</span>(<span class='st'>"2x"</span>)</div><div class='output co'>#&gt; [1] "2*x"</div><div class='input'><span class='fu'>make_products_explicit</span>(<span class='st'>"2(1+2)"</span>)</div><div class='output co'>#&gt; [1] "2*(1+2)"</div><div class='input'><span class='fu'>make_products_explicit</span>(<span class='st'>"x(y)"</span>)</div><div class='output co'>#&gt; [1] "x*(y)"</div><div class='input'><span class='fu'>make_products_explicit</span>(<span class='st'>"(1+2)3"</span>) <span class='co'># Not allowed by definition</span></div><div class='output co'>#&gt; [1] "(1+2)3"</div><div class='input'><span class='fu'>make_products_explicit</span>(<span class='st'>"(1+2)x"</span>) <span class='co'># Is allowed</span></div><div class='output co'>#&gt; [1] "(1+2)*x"</div><div class='input'><span class='fu'>make_products_explicit</span>(<span class='st'>"x(2+1) + sin(y)"</span>)</div><div class='output co'>#&gt; [1] "x*(2+1)+sin(y)"</div><div class='input'><span class='fu'>make_products_explicit</span>(<span class='st'>"sin(2+1) + x(y+1)"</span>)</div><div class='output co'>#&gt; [1] "sin(2+1)+x*(y+1)"</div><div class='input'><span class='fu'>make_products_explicit</span>(<span class='st'>"(2x)(y+1)"</span>)</div><div class='output co'>#&gt; [1] "(2*x)*(y+1)"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

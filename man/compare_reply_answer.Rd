@@ -9,7 +9,9 @@ compare_reply_answer(
   answer,
   compare_grid = NULL,
   replace_comma = TRUE,
-  ans_tol = 0.01
+  ans_tol = 0.01,
+  insert_products = TRUE,
+  allowed_functions = getGroupMembers("Math")
 )
 }
 \arguments{
@@ -22,7 +24,26 @@ compare_reply_answer(
 \item{replace_comma}{Replace ',' with '.' before parsing}
 
 \item{ans_tol}{tolerance for comparisons}
+
+\item{insert_products}{Make implicit products explicit}
+
+\item{allowed_functions}{functions (sequence of characters) that should not have products, e.g. \code{cos}, \code{sin}}
 }
 \description{
 The comparison is done via a numerical grid.
+}
+\examples{
+compare_reply_answer(reply = "2yx^2", 
+                     answer = Ryacas::ysym("2*y*x^2"), 
+                     compare_grid = expand.grid(x = seq(-10, 10, len = 10), 
+                                                y = seq(-10, 10, len = 10)))
+compare_reply_answer(reply = "2.1yx^2", 
+                     answer = Ryacas::ysym("2*y*x^2"), 
+                     compare_grid = expand.grid(x = seq(-10, 10, len = 10), 
+                                                y = seq(-10, 10, len = 10)))
+compare_reply_answer(reply = "2yx^2+0.01", 
+                     answer = Ryacas::ysym("2*y*x^2"), 
+                     compare_grid = expand.grid(x = seq(-10, 10, len = 10), 
+                                                y = seq(-10, 10, len = 10)), 
+                     ans_tol = 1)
 }

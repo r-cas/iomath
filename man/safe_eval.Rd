@@ -4,7 +4,13 @@
 \alias{safe_eval}
 \title{Safely eval a string as an expression}
 \usage{
-safe_eval(x, vars = NULL, replace_comma = TRUE)
+safe_eval(
+  x,
+  vars = NULL,
+  replace_comma = TRUE,
+  insert_products = TRUE,
+  allowed_functions = getGroupMembers("Math")
+)
 }
 \arguments{
 \item{x}{string to evaluate}
@@ -12,6 +18,10 @@ safe_eval(x, vars = NULL, replace_comma = TRUE)
 \item{vars}{list with variable values}
 
 \item{replace_comma}{Replace ',' with '.' before parsing}
+
+\item{insert_products}{Make implicit products explicit}
+
+\item{allowed_functions}{functions (sequence of characters) that should not have products, e.g. \code{cos}, \code{sin}}
 }
 \description{
 Safely eval a string as an expression

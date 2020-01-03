@@ -134,14 +134,29 @@ insert_product_advanced <- function(x,
 }
 
 if (FALSE) {
-  insert_product_advanced("2x")
-  insert_product_advanced("2(1+2)")
-  insert_product_advanced("x(y)")
-  insert_product_advanced("(1+2)3") # Not allowed
-  insert_product_advanced("x(2+1) + sin(y)")
-  insert_product_advanced("sin(2+1) + x(y+1)")
-  insert_product_advanced("(2x)(y+1)")
+
 }
 
-
-
+#' Make implicit products explicit
+#' 
+#' @param x user input
+#' @param allowed_functions functions (sequence of characters) that should not have products, e.g. `cos`, `sin`
+#' 
+#' @examples 
+#' make_products_explicit("2x")
+#' make_products_explicit("2(1+2)")
+#' make_products_explicit("x(y)")
+#' make_products_explicit("(1+2)3") # Not allowed by definition
+#' make_products_explicit("(1+2)x") # Is allowed
+#' make_products_explicit("x(2+1) + sin(y)")
+#' make_products_explicit("sin(2+1) + x(y+1)")
+#' make_products_explicit("(2x)(y+1)")
+#' 
+#' @export
+make_products_explicit <- function(x, 
+                                   allowed_functions = getGroupMembers("Math")) {
+  
+  return(insert_product_advanced(x = x, 
+                                 allowed_functions = allowed_functions))
+  
+}

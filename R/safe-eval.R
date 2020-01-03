@@ -23,12 +23,20 @@ get_safe_env_copy <- function() {
 #' @param x string to evaluate
 #' @param vars list with variable values
 #' @param replace_comma Replace ',' with '.' before parsing
+#' @param insert_products Make implicit products explicit
+#' @inheritParams make_products_explicit
 #' 
 #' @examples 
 #' safe_eval("2+2")
 #' 
 #' @export
-safe_eval <- function(x, vars = NULL, replace_comma = TRUE) {
+safe_eval <- function(x, 
+                      vars = NULL, 
+                      replace_comma = TRUE,
+                      insert_products = TRUE,
+                      allowed_functions = getGroupMembers("Math")
+                      ) {
+  
   stopifnot(!is.null(x))
   stopifnot(is.character(x))
   stopifnot(length(x) == 1L)
@@ -48,6 +56,11 @@ safe_eval <- function(x, vars = NULL, replace_comma = TRUE) {
   
   if (replace_comma) {
     x2 <- gsub(",", ".", x2, fixed = TRUE)
+  }
+  
+  if (insert_products) {
+    x2 <- make_products_explicit(x = x2, 
+                                 allowed_functions = allowed_functions)
   }
   
   y <- parse(text = x2)

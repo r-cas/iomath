@@ -18,7 +18,9 @@ knitr::opts_chunk$set(
 library(iomath)
 ```
 
-## Conversion to `tex`
+## Output
+
+### Conversion to `tex`
 
 ```{r}
 e <- Ryacas::ysym("((2*Sin(2+x))^2 + (a+b)^2)^3")
@@ -68,33 +70,71 @@ $$
 $$
 
 
-## Safe evaluation
+## Input
+
+### Assumptions
+
+* Variables are single letters: a-z, A-Z (e.g. $x$, $y$, $a$, $b$)
+  + This has been done to better interpret user-input such as `2x` to mean `2*x`
+
+### Implicit product
+
+```{r}
+make_products_explicit("2x")
+make_products_explicit("2(1+2)")
+make_products_explicit("x(y)")
+make_products_explicit("(1+2)3") # Not allowed by definition
+make_products_explicit("(1+2)x") # Is allowed
+make_products_explicit("x(2+1) + sin(y)")
+make_products_explicit("sin(2+1) + x(y+1)")
+make_products_explicit("(2x)(y+1)")
+```
+
+By default, the allowed functions are those of `getGroupMembers("Math")`:
+
+```{r}
+getGroupMembers("Math")
+```
+
+This can be changed:
+
+```{r}
+make_products_explicit("sin(1) + cos(1)", allowed_functions = c('cos'))
+```
+
+
+### Safe evaluation
+
+By default, safe evaluation inserts inner products.
 
 ```{r}
 safe_eval("2.2", vars = NULL)
+safe_eval("2.2x^2", vars = list(x = 0.2))
 safe_eval("2.2*x^2", vars = list(x = 0.2))
 safe_eval("2,2*x^2", vars = list(x = 0.2))
 ```
 
+Efterything after first `;` is ignored:
+
 ```{r}
-safe_eval("2.2; 1.2")
+safe_eval("1; 2; 3")
 ```
+
+#### Disallowed inputs
 
 ```{r, error = TRUE}
-safe_eval("c(2.2, 1.2)", replace_comma = FALSE)
-safe_eval("2,2x^2", vars = list(x = 0.2))
+safe_eval("print(2)")
 ```
 
-
-## Comparing
+### Comparing
 
 ```{r}
 grd <- expand.grid(x = seq(-10, 10, length.out = 10))
-answer <- Ryacas::ysym("2.2*x^2")
-compare_reply_answer(reply = "2.2*x^2", 
+answer <- Ryacas::ysym("2*x^2")
+compare_reply_answer(reply = "2x^2", 
                      answer = answer, 
                      compare_grid = grd)
-compare_reply_answer(reply = "2.3*x^2", 
+compare_reply_answer(reply = "2.3x^2", 
                      answer = answer, 
                      compare_grid = grd)
 ```
@@ -119,5 +159,6 @@ compare_reply_answer(reply = m2,
                      answer = ans, 
                      compare_grid = grd)
 ```
+
 
 

@@ -3,7 +3,9 @@ single_compare <- function(reply,
                            answer, 
                            compare_grid = NULL, 
                            replace_comma = TRUE, 
-                           ans_tol = 0.01) {
+                           ans_tol = 0.01, 
+                           insert_products = TRUE,
+                           allowed_functions = getGroupMembers("Math")) {
   
   stopifnot(is(answer, "yac_symbol"))
   
@@ -12,7 +14,11 @@ single_compare <- function(reply,
   # Expect no variables
   if (is.null(compare_grid)) {
     val_answer <- eval(answer_expr)
-    val_reply <- safe_eval(reply)
+    val_reply <- safe_eval(reply, 
+                           replace_comma = replace_comma, 
+                           insert_products = insert_products,
+                           allowed_functions = allowed_functions
+                           )
     
     if (abs(val_answer - val_reply) > ans_tol) {
       return(FALSE)
@@ -26,7 +32,11 @@ single_compare <- function(reply,
     vars <- compare_grid[i, , drop = FALSE]
     
     val_answer <- eval(answer_expr, envir = vars)
-    val_reply <- safe_eval(reply, vars = vars)
+    val_reply <- safe_eval(reply, 
+                           vars = vars, 
+                           replace_comma = replace_comma, 
+                           insert_products = insert_products,
+                           allowed_functions = allowed_functions)
 
     if (abs(val_answer - val_reply) > ans_tol) {
       return(FALSE)
@@ -46,12 +56,28 @@ single_compare <- function(reply,
 #' @param ans_tol tolerance for comparisons
 #' @inheritParams safe_eval
 #' 
+#' @examples 
+#' compare_reply_answer(reply = "2yx^2", 
+#'                      answer = Ryacas::ysym("2*y*x^2"), 
+#'                      compare_grid = expand.grid(x = seq(-10, 10, len = 10), 
+#'                                                 y = seq(-10, 10, len = 10)))
+#' compare_reply_answer(reply = "2.1yx^2", 
+#'                      answer = Ryacas::ysym("2*y*x^2"), 
+#'                      compare_grid = expand.grid(x = seq(-10, 10, len = 10), 
+#'                                                 y = seq(-10, 10, len = 10)))
+#' compare_reply_answer(reply = "2yx^2+0.01", 
+#'                      answer = Ryacas::ysym("2*y*x^2"), 
+#'                      compare_grid = expand.grid(x = seq(-10, 10, len = 10), 
+#'                                                 y = seq(-10, 10, len = 10)), 
+#'                      ans_tol = 1)
 #' @export
 compare_reply_answer <- function(reply, 
                                  answer, 
                                  compare_grid = NULL, 
                                  replace_comma = TRUE, 
-                                 ans_tol = 0.01) {
+                                 ans_tol = 0.01, 
+                                 insert_products = TRUE,
+                                 allowed_functions = getGroupMembers("Math")) {
   
   stopifnot(is(answer, "yac_symbol"))
   
@@ -68,7 +94,9 @@ compare_reply_answer <- function(reply,
                           answer = answer, 
                           compare_grid = compare_grid, 
                           replace_comma = replace_comma, 
-                          ans_tol = ans_tol)
+                          ans_tol = ans_tol, 
+                          insert_products = insert_products,
+                          allowed_functions = allowed_functions)
     return(res)
   } 
   
@@ -84,7 +112,9 @@ compare_reply_answer <- function(reply,
                             answer = entry_answer, 
                             compare_grid = compare_grid, 
                             replace_comma = replace_comma, 
-                            ans_tol = ans_tol)
+                            ans_tol = ans_tol, 
+                            insert_products = insert_products,
+                            allowed_functions = allowed_functions)
       
       if (res == FALSE) {
         return(FALSE)

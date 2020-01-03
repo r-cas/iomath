@@ -90,10 +90,13 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(iomath)</a></code></pre></div>
-<div id="conversion-to-tex" class="section level2">
+<div id="output" class="section level2">
 <h2 class="hasAnchor">
+<a href="#output" class="anchor"></a>Output</h2>
+<div id="conversion-to-tex" class="section level3">
+<h3 class="hasAnchor">
 <a href="#conversion-to-tex" class="anchor"></a>Conversion to <code>tex</code>
-</h2>
+</h3>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">e &lt;-<span class="st"> </span>Ryacas<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/Ryacas/man/ysym.html">ysym</a></span>(<span class="st">"((2*Sin(2+x))^2 + (a+b)^2)^3"</span>)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">e</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; y: ((2*Sin(x+2))^2+(a+b)^2)^3</span></a>
@@ -128,66 +131,118 @@
  \left\langle \left\{ 2 \sin \left\langle x + 2 \right\rangle \right\} ^{2} + \left\{ a + b \right\} ^{2} \right\rangle ^{3}
 \]</span></p>
 </div>
-<div id="safe-evaluation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#safe-evaluation" class="anchor"></a>Safe evaluation</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/safe_eval.html">safe_eval</a></span>(<span class="st">"2.2"</span>, <span class="dt">vars =</span> <span class="ot">NULL</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; [1] 2.2</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="../reference/safe_eval.html">safe_eval</a></span>(<span class="st">"2.2*x^2"</span>, <span class="dt">vars =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">x =</span> <span class="fl">0.2</span>))</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; [1] 0.088</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="kw"><a href="../reference/safe_eval.html">safe_eval</a></span>(<span class="st">"2,2*x^2"</span>, <span class="dt">vars =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">x =</span> <span class="fl">0.2</span>))</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; [1] 0.088</span></a></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/safe_eval.html">safe_eval</a></span>(<span class="st">"2.2; 1.2"</span>)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; [1] 2.2</span></a></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/safe_eval.html">safe_eval</a></span>(<span class="st">"c(2.2, 1.2)"</span>, <span class="dt">replace_comma =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; Error in c(2.2, 1.2): could not find function "c"</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw"><a href="../reference/safe_eval.html">safe_eval</a></span>(<span class="st">"2,2x^2"</span>, <span class="dt">vars =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">x =</span> <span class="fl">0.2</span>))</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; Error in parse(text = x2): &lt;text&gt;:1:4: uventet symbol</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 1: 2.2x</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;        ^</span></a></code></pre></div>
 </div>
-<div id="comparing" class="section level2">
+<div id="input" class="section level2">
 <h2 class="hasAnchor">
-<a href="#comparing" class="anchor"></a>Comparing</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">grd &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dt">length.out =</span> <span class="dv">10</span>))</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">answer &lt;-<span class="st"> </span>Ryacas<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/Ryacas/man/ysym.html">ysym</a></span>(<span class="st">"2.2*x^2"</span>)</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="../reference/compare_reply_answer.html">compare_reply_answer</a></span>(<span class="dt">reply =</span> <span class="st">"2.2*x^2"</span>, </a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">                     <span class="dt">answer =</span> answer, </a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">                     <span class="dt">compare_grid =</span> grd)</a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; [1] TRUE</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="kw"><a href="../reference/compare_reply_answer.html">compare_reply_answer</a></span>(<span class="dt">reply =</span> <span class="st">"2.3*x^2"</span>, </a>
-<a class="sourceLine" id="cb9-8" data-line-number="8">                     <span class="dt">answer =</span> answer, </a>
-<a class="sourceLine" id="cb9-9" data-line-number="9">                     <span class="dt">compare_grid =</span> grd)</a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; [1] FALSE</span></a></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"2+z^3"</span>, <span class="st">"2*sin(x)"</span>, <span class="st">"3*y^2"</span>, <span class="st">"1.1*x^2"</span>), <span class="dv">2</span>, <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">m</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt;      [,1]       [,2]     </span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; [1,] "2+z^3"    "3*y^2"  </span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; [2,] "2*sin(x)" "1.1*x^2"</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">ans &lt;-<span class="st"> </span>Ryacas<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/Ryacas/man/ysym.html">ysym</a></span>(m)</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7">ans</a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; {{   z^3+2,    3*y^2},</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt;  {2*sin(x),  1.1*x^2}}</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10">grd &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dt">length.out =</span> <span class="dv">5</span>),</a>
-<a class="sourceLine" id="cb10-11" data-line-number="11">                   <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dt">length.out =</span> <span class="dv">5</span>),</a>
-<a class="sourceLine" id="cb10-12" data-line-number="12">                   <span class="dt">z =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dt">length.out =</span> <span class="dv">5</span>))</a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="kw"><a href="../reference/compare_reply_answer.html">compare_reply_answer</a></span>(<span class="dt">reply =</span> m, </a>
-<a class="sourceLine" id="cb10-14" data-line-number="14">                     <span class="dt">answer =</span> ans, </a>
-<a class="sourceLine" id="cb10-15" data-line-number="15">                     <span class="dt">compare_grid =</span> grd)</a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; [1] TRUE</span></a>
-<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="kw"><a href="../reference/compare_reply_answer.html">compare_reply_answer</a></span>(<span class="dt">reply =</span> m[<span class="dv">1</span>, <span class="dv">1</span>], </a>
-<a class="sourceLine" id="cb10-18" data-line-number="18">                     <span class="dt">answer =</span> ans, </a>
-<a class="sourceLine" id="cb10-19" data-line-number="19">                     <span class="dt">compare_grid =</span> grd)</a>
-<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">#&gt; [1] FALSE</span></a>
-<a class="sourceLine" id="cb10-21" data-line-number="21">m2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(m, <span class="dv">2</span>, paste0, <span class="st">'+0.1'</span>)</a>
-<a class="sourceLine" id="cb10-22" data-line-number="22">m2</a>
-<a class="sourceLine" id="cb10-23" data-line-number="23"><span class="co">#&gt;      [,1]           [,2]         </span></a>
-<a class="sourceLine" id="cb10-24" data-line-number="24"><span class="co">#&gt; [1,] "2+z^3+0.1"    "3*y^2+0.1"  </span></a>
-<a class="sourceLine" id="cb10-25" data-line-number="25"><span class="co">#&gt; [2,] "2*sin(x)+0.1" "1.1*x^2+0.1"</span></a>
-<a class="sourceLine" id="cb10-26" data-line-number="26"><span class="kw"><a href="../reference/compare_reply_answer.html">compare_reply_answer</a></span>(<span class="dt">reply =</span> m2, </a>
-<a class="sourceLine" id="cb10-27" data-line-number="27">                     <span class="dt">answer =</span> ans, </a>
-<a class="sourceLine" id="cb10-28" data-line-number="28">                     <span class="dt">compare_grid =</span> grd)</a>
-<a class="sourceLine" id="cb10-29" data-line-number="29"><span class="co">#&gt; [1] FALSE</span></a></code></pre></div>
+<a href="#input" class="anchor"></a>Input</h2>
+<div id="assumptions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#assumptions" class="anchor"></a>Assumptions</h3>
+<ul>
+<li>Variables are single letters: a-z, A-Z (e.g. <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>)
+<ul>
+<li>This has been done to better interpret user-input such as <code>2x</code> to mean <code>2*x</code>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="implicit-product" class="section level3">
+<h3 class="hasAnchor">
+<a href="#implicit-product" class="anchor"></a>Implicit product</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/make_products_explicit.html">make_products_explicit</a></span>(<span class="st">"2x"</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; [1] "2*x"</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="../reference/make_products_explicit.html">make_products_explicit</a></span>(<span class="st">"2(1+2)"</span>)</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; [1] "2*(1+2)"</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="kw"><a href="../reference/make_products_explicit.html">make_products_explicit</a></span>(<span class="st">"x(y)"</span>)</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; [1] "x*(y)"</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="kw"><a href="../reference/make_products_explicit.html">make_products_explicit</a></span>(<span class="st">"(1+2)3"</span>) <span class="co"># Not allowed by definition</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; [1] "(1+2)3"</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="kw"><a href="../reference/make_products_explicit.html">make_products_explicit</a></span>(<span class="st">"(1+2)x"</span>) <span class="co"># Is allowed</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; [1] "(1+2)*x"</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="kw"><a href="../reference/make_products_explicit.html">make_products_explicit</a></span>(<span class="st">"x(2+1) + sin(y)"</span>)</a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; [1] "x*(2+1)+sin(y)"</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="kw"><a href="../reference/make_products_explicit.html">make_products_explicit</a></span>(<span class="st">"sin(2+1) + x(y+1)"</span>)</a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; [1] "sin(2+1)+x*(y+1)"</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="kw"><a href="../reference/make_products_explicit.html">make_products_explicit</a></span>(<span class="st">"(2x)(y+1)"</span>)</a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; [1] "(2*x)*(y+1)"</span></a></code></pre></div>
+<p>By default, the allowed functions are those of <code>getGroupMembers("Math")</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">getGroupMembers</span>(<span class="st">"Math"</span>)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt;  [1] "abs"      "sign"     "sqrt"     "ceiling"  "floor"    "trunc"   </span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;  [7] "cummax"   "cummin"   "cumprod"  "cumsum"   "exp"      "expm1"   </span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; [13] "log"      "log10"    "log2"     "log1p"    "cos"      "cosh"    </span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; [19] "sin"      "sinh"     "tan"      "tanh"     "acos"     "acosh"   </span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; [25] "asin"     "asinh"    "atan"     "atanh"    "cospi"    "sinpi"   </span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; [31] "tanpi"    "gamma"    "lgamma"   "digamma"  "trigamma"</span></a></code></pre></div>
+<p>This can be changed:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/make_products_explicit.html">make_products_explicit</a></span>(<span class="st">"sin(1) + cos(1)"</span>, <span class="dt">allowed_functions =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'cos'</span>))</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; [1] "s*i*n*(1)+cos(1)"</span></a></code></pre></div>
+</div>
+<div id="safe-evaluation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#safe-evaluation" class="anchor"></a>Safe evaluation</h3>
+<p>By default, safe evaluation inserts inner products.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/safe_eval.html">safe_eval</a></span>(<span class="st">"2.2"</span>, <span class="dt">vars =</span> <span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; [1] 2.2</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="../reference/safe_eval.html">safe_eval</a></span>(<span class="st">"2.2x^2"</span>, <span class="dt">vars =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">x =</span> <span class="fl">0.2</span>))</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; [1] 0.088</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw"><a href="../reference/safe_eval.html">safe_eval</a></span>(<span class="st">"2.2*x^2"</span>, <span class="dt">vars =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">x =</span> <span class="fl">0.2</span>))</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; [1] 0.088</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="kw"><a href="../reference/safe_eval.html">safe_eval</a></span>(<span class="st">"2,2*x^2"</span>, <span class="dt">vars =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">x =</span> <span class="fl">0.2</span>))</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; [1] 0.088</span></a></code></pre></div>
+<p>Efterything after first <code>;</code> is ignored:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/safe_eval.html">safe_eval</a></span>(<span class="st">"1; 2; 3"</span>)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; [1] 1</span></a></code></pre></div>
+<div id="disallowed-inputs" class="section level4">
+<h4 class="hasAnchor">
+<a href="#disallowed-inputs" class="anchor"></a>Disallowed inputs</h4>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../reference/safe_eval.html">safe_eval</a></span>(<span class="st">"print(2)"</span>)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; Error in safe_eval("print(2)"): Unknown variables in expression: 'p', 'r', 'i', 'n', 't'</span></a></code></pre></div>
+</div>
+</div>
+<div id="comparing" class="section level3">
+<h3 class="hasAnchor">
+<a href="#comparing" class="anchor"></a>Comparing</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">grd &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dt">length.out =</span> <span class="dv">10</span>))</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">answer &lt;-<span class="st"> </span>Ryacas<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/Ryacas/man/ysym.html">ysym</a></span>(<span class="st">"2*x^2"</span>)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="kw"><a href="../reference/compare_reply_answer.html">compare_reply_answer</a></span>(<span class="dt">reply =</span> <span class="st">"2x^2"</span>, </a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">                     <span class="dt">answer =</span> answer, </a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">                     <span class="dt">compare_grid =</span> grd)</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; [1] TRUE</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="kw"><a href="../reference/compare_reply_answer.html">compare_reply_answer</a></span>(<span class="dt">reply =</span> <span class="st">"2.3x^2"</span>, </a>
+<a class="sourceLine" id="cb12-8" data-line-number="8">                     <span class="dt">answer =</span> answer, </a>
+<a class="sourceLine" id="cb12-9" data-line-number="9">                     <span class="dt">compare_grid =</span> grd)</a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; [1] FALSE</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"2+z^3"</span>, <span class="st">"2*sin(x)"</span>, <span class="st">"3*y^2"</span>, <span class="st">"1.1*x^2"</span>), <span class="dv">2</span>, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">m</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt;      [,1]       [,2]     </span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; [1,] "2+z^3"    "3*y^2"  </span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; [2,] "2*sin(x)" "1.1*x^2"</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">ans &lt;-<span class="st"> </span>Ryacas<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/Ryacas/man/ysym.html">ysym</a></span>(m)</a>
+<a class="sourceLine" id="cb13-7" data-line-number="7">ans</a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; {{   z^3+2,    3*y^2},</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt;  {2*sin(x),  1.1*x^2}}</span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10">grd &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dt">length.out =</span> <span class="dv">5</span>),</a>
+<a class="sourceLine" id="cb13-11" data-line-number="11">                   <span class="dt">y =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dt">length.out =</span> <span class="dv">5</span>),</a>
+<a class="sourceLine" id="cb13-12" data-line-number="12">                   <span class="dt">z =</span> <span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dt">length.out =</span> <span class="dv">5</span>))</a>
+<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="kw"><a href="../reference/compare_reply_answer.html">compare_reply_answer</a></span>(<span class="dt">reply =</span> m, </a>
+<a class="sourceLine" id="cb13-14" data-line-number="14">                     <span class="dt">answer =</span> ans, </a>
+<a class="sourceLine" id="cb13-15" data-line-number="15">                     <span class="dt">compare_grid =</span> grd)</a>
+<a class="sourceLine" id="cb13-16" data-line-number="16"><span class="co">#&gt; [1] TRUE</span></a>
+<a class="sourceLine" id="cb13-17" data-line-number="17"><span class="kw"><a href="../reference/compare_reply_answer.html">compare_reply_answer</a></span>(<span class="dt">reply =</span> m[<span class="dv">1</span>, <span class="dv">1</span>], </a>
+<a class="sourceLine" id="cb13-18" data-line-number="18">                     <span class="dt">answer =</span> ans, </a>
+<a class="sourceLine" id="cb13-19" data-line-number="19">                     <span class="dt">compare_grid =</span> grd)</a>
+<a class="sourceLine" id="cb13-20" data-line-number="20"><span class="co">#&gt; [1] FALSE</span></a>
+<a class="sourceLine" id="cb13-21" data-line-number="21">m2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(m, <span class="dv">2</span>, paste0, <span class="st">'+0.1'</span>)</a>
+<a class="sourceLine" id="cb13-22" data-line-number="22">m2</a>
+<a class="sourceLine" id="cb13-23" data-line-number="23"><span class="co">#&gt;      [,1]           [,2]         </span></a>
+<a class="sourceLine" id="cb13-24" data-line-number="24"><span class="co">#&gt; [1,] "2+z^3+0.1"    "3*y^2+0.1"  </span></a>
+<a class="sourceLine" id="cb13-25" data-line-number="25"><span class="co">#&gt; [2,] "2*sin(x)+0.1" "1.1*x^2+0.1"</span></a>
+<a class="sourceLine" id="cb13-26" data-line-number="26"><span class="kw"><a href="../reference/compare_reply_answer.html">compare_reply_answer</a></span>(<span class="dt">reply =</span> m2, </a>
+<a class="sourceLine" id="cb13-27" data-line-number="27">                     <span class="dt">answer =</span> ans, </a>
+<a class="sourceLine" id="cb13-28" data-line-number="28">                     <span class="dt">compare_grid =</span> grd)</a>
+<a class="sourceLine" id="cb13-29" data-line-number="29"><span class="co">#&gt; [1] FALSE</span></a></code></pre></div>
+</div>
 </div>
   </div>
 
@@ -197,9 +252,8 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#conversion-to-tex">Conversion to <code>tex</code></a></li>
-      <li><a href="#safe-evaluation">Safe evaluation</a></li>
-      <li><a href="#comparing">Comparing</a></li>
+<li><a href="#output">Output</a></li>
+      <li><a href="#input">Input</a></li>
       </ul>
 </div>
       </div>
