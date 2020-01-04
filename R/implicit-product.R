@@ -69,28 +69,42 @@ insert_product_advanced <- function(x,
   x <- gsub(" ", "", x, fixed = TRUE)
   
   ignore_i_ranges_lst <- lapply(allowed_functions, function(y) {
-    res <- gregexpr(y, x, fixed = TRUE)[[1L]]
+    #res <- gregexpr(y, x, fixed = TRUE)[[1L]]
+    # func( to get function name alone
+    patn <- paste0("^(^|.*[^A-Za-z]+)(", y, ")\\(") # start or something else than characters
+    #res <- gregexpr(patn, x)
+    res <- regexec(patn, x)
+    res <- res[[1L]] 
     
-    if (res == -1L) {
+    if (length(res) == 1L && res == -1L) {
+      return(NULL)
+    }
+    
+    if (length(res) != 3L) {
       return(NULL)
     }
     
     return(res)
   })
+  # ignore_i_ranges_lst[allowed_functions %in% c("cos", "sin")]
   ignore_i_start <- unlist(lapply(ignore_i_ranges_lst, function(y) {
     if (is.null(y)) {
       return(NULL)
     }
     
-    return(as.integer(y))
+    #return(as.integer(y))
+    return(as.integer(y[3L]))
   }))
+  # ignore_i_start
   ignore_i_body <- unlist(lapply(ignore_i_ranges_lst, function(y) {
     if (is.null(y)) {
       return(NULL)
     }
     
-    return(seq(y + 1L, y + attr(y, "match.length") - 1L))
+    #return(seq(y + 1L, y + attr(y, "match.length") - 1L))
+    return(seq(y[3L] + 1L, y[3L] + attr(y, "match.length")[3L] - 1L))
   }))
+  #ignore_i_body
   
   i <- 2L
   
@@ -131,10 +145,6 @@ insert_product_advanced <- function(x,
   }
   
   return(x)
-}
-
-if (FALSE) {
-
 }
 
 #' Make implicit products explicit
