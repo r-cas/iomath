@@ -1,20 +1,29 @@
 # Based on:
 # https://stackoverflow.com/questions/18369913/safely-evaluating-arithmetic-expressions-in-r
 
+safe_constants <- c(
+  "pi"
+)
+
+safe_functions <- c(
+  "(",
+  getGroupMembers("Math"),
+  getGroupMembers("Arith")
+)
+
 get_safe_env_copy <- function() {
-  safe_functions <- c(
-    "(",
-    getGroupMembers("Math"),
-    getGroupMembers("Arith")
-  )
-  
   safe_env <- new.env(parent = emptyenv())
+  
+  for (f in safe_constants) {
+    safe_env[[f]] <- get(f, "package:base")
+  }
   
   for (f in safe_functions) {
     safe_env[[f]] <- get(f, "package:base")
   }
   
   new_safe_env <- as.environment(as.list(safe_env, all.names = TRUE))
+  
   return(new_safe_env)
 }
 
@@ -24,7 +33,8 @@ get_safe_env_copy <- function() {
 prepare_input <- function(x, 
                       replace_comma = TRUE,
                       insert_products = TRUE,
-                      allowed_functions = getGroupMembers("Math")) {
+                      allowed_functions = getGroupMembers("Math"),
+                      allowed_constants = c("pi")) {
   
   # Remove everything after ";"
   x2 <- gsub("^([^;]*).*$", "\\1", x)
@@ -37,7 +47,8 @@ prepare_input <- function(x,
   
   if (insert_products) {
     x2 <- make_products_explicit(x = x2, 
-                                 allowed_functions = allowed_functions)
+                                 allowed_functions = allowed_functions,
+                                 allowed_constants = allowed_constants)
   }
   
   return(x2)
@@ -59,7 +70,8 @@ safe_eval <- function(x,
                       vars = NULL, 
                       replace_comma = TRUE,
                       insert_products = TRUE,
-                      allowed_functions = getGroupMembers("Math")
+                      allowed_functions = getGroupMembers("Math"),
+                      allowed_constants = c("pi")
                       ) {
   
   stopifnot(!is.null(x))
@@ -77,10 +89,12 @@ safe_eval <- function(x,
   x2 <- prepare_input(x, 
                       replace_comma = replace_comma,
                       insert_products = insert_products,
-                      allowed_functions = allowed_functions)
+                      allowed_functions = allowed_functions,
+                      allowed_constants = allowed_constants)
   
   y <- parse(text = x2)
   y_vars <- all.vars(y)
+  y_vars <- setdiff(y_vars, safe_constants)
   
   # Ensure that no new variables enter expression:
   unknown_vars <- setdiff(y_vars, vars_names)

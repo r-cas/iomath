@@ -8,7 +8,8 @@ prepare_input(
   x,
   replace_comma = TRUE,
   insert_products = TRUE,
-  allowed_functions = getGroupMembers("Math")
+  allowed_functions = getGroupMembers("Math"),
+  allowed_constants = c("pi")
 )
 }
 \description{

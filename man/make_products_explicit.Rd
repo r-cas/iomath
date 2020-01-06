@@ -4,7 +4,11 @@
 \alias{make_products_explicit}
 \title{Make implicit products explicit}
 \usage{
-make_products_explicit(x, allowed_functions = getGroupMembers("Math"))
+make_products_explicit(
+  x,
+  allowed_functions = getGroupMembers("Math"),
+  allowed_constants = c("pi")
+)
 }
 \arguments{
 \item{x}{user input}

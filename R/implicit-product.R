@@ -52,10 +52,61 @@ insert_product_simple <- function(x) {
 }
 
 
+get_ranges <- function(patterns, haystack, require_open_bracket = TRUE) {
+  ignore_i_ranges_lst <- lapply(patterns, function(y) {
+    
+    #patn <- paste0("^(^|.*[^A-Za-z]+)(", y, ")\\(") # start or something else than characters
+    
+    patn <- if (require_open_bracket) {
+      paste0("^(^|.*[^A-Za-z]+)(", y, ")(\\(.*)") # start or something else than characters
+    } else {
+      paste0("^(^|.*[^A-Za-z]+)(", y, ")($|[^A-Za-z]+.*)") 
+    }
+    
+    res <- regexec(patn, haystack)
+    res <- res[[1L]] 
+    
+    if (length(res) == 1L && res == -1L) {
+      return(NULL)
+    }
+    
+    if (length(res) != 4L) {
+      return(NULL)
+    }
+    
+    return(res)
+  })
+  
+  # ignore_i_ranges_lst[allowed_functions %in% c("cos", "sin")]
+  ignore_i_start <- unlist(lapply(ignore_i_ranges_lst, function(y) {
+    if (is.null(y)) {
+      return(NULL)
+    }
+    
+    #return(as.integer(y))
+    return(as.integer(y[3L]))
+  }))
+  # ignore_i_start
+  
+  ignore_i_body <- unlist(lapply(ignore_i_ranges_lst, function(y) {
+    if (is.null(y)) {
+      return(NULL)
+    }
+    
+    #return(seq(y + 1L, y + attr(y, "match.length") - 1L))
+    return(seq(y[3L] + 1L, y[3L] + attr(y, "match.length")[3L] - 1L))
+  }))
+  
+  return(list(start = ignore_i_start,
+              body = ignore_i_body))
+  #ignore_i_body
+}
 
 #' @importFrom stringi stri_sub
 insert_product_advanced <- function(x, 
-                                    allowed_functions = getGroupMembers("Math")) {
+                                    allowed_functions = getGroupMembers("Math"),
+                                    allowed_constants = c("pi")
+                                    ) {
   # x <- "x(2+1) + sin(y)"
   # x <- "sin(2+1) + x(y+1)"
   # x <- "2x"
@@ -68,50 +119,18 @@ insert_product_advanced <- function(x,
   
   x <- gsub(" ", "", x, fixed = TRUE)
   
-  ignore_i_ranges_lst <- lapply(allowed_functions, function(y) {
-    #res <- gregexpr(y, x, fixed = TRUE)[[1L]]
-    # func( to get function name alone
-    patn <- paste0("^(^|.*[^A-Za-z]+)(", y, ")\\(") # start or something else than characters
-    #res <- gregexpr(patn, x)
-    res <- regexec(patn, x)
-    res <- res[[1L]] 
-    
-    if (length(res) == 1L && res == -1L) {
-      return(NULL)
-    }
-    
-    if (length(res) != 3L) {
-      return(NULL)
-    }
-    
-    return(res)
-  })
-  # ignore_i_ranges_lst[allowed_functions %in% c("cos", "sin")]
-  ignore_i_start <- unlist(lapply(ignore_i_ranges_lst, function(y) {
-    if (is.null(y)) {
-      return(NULL)
-    }
-    
-    #return(as.integer(y))
-    return(as.integer(y[3L]))
-  }))
-  # ignore_i_start
-  ignore_i_body <- unlist(lapply(ignore_i_ranges_lst, function(y) {
-    if (is.null(y)) {
-      return(NULL)
-    }
-    
-    #return(seq(y + 1L, y + attr(y, "match.length") - 1L))
-    return(seq(y[3L] + 1L, y[3L] + attr(y, "match.length")[3L] - 1L))
-  }))
-  #ignore_i_body
+  rng_fnc <- get_ranges(allowed_functions, x, require_open_bracket = TRUE)
+  rng_fnc
+  rng_cnst <- get_ranges(allowed_constants, x, require_open_bracket = FALSE)
+  rng_cnst
   
   i <- 2L
   
   # Cannot be for-loop as n may change
   while (i <= n) {
-    # i is hitting a known function ('in' in 'sin')
-    if (i %in% ignore_i_body) {
+    # i is hitting a known function/constant ('in' in 'sin' / 'i' in 'pi')
+    if (i %in% rng_fnc$body ||
+        i %in% rng_cnst$body) {
       i <- i + 1L
       next
     }
@@ -120,14 +139,17 @@ insert_product_advanced <- function(x,
 
     if (
         # Known function start
-        i %in% ignore_i_start ||
+        i %in% rng_fnc$start ||
+        
+        # Known constant start
+        i %in% rng_cnst$start ||
         
         # Variable
         grepl("^[A-Za-z]$", char) || 
         
         # opening bracket
         (grepl("^[(]$", char) && 
-           !((i-1) %in% ignore_i_start) && !((i-1) %in% ignore_i_body)) # bracket for function
+           !((i-1) %in% rng_fnc$start) && !((i-1) %in% rng_fnc$body)) # bracket for function
         ) {
       prevchar <- stringi::stri_sub(x, from = i-1L, to = i-1L) 
       
@@ -136,8 +158,11 @@ insert_product_advanced <- function(x,
         stringi::stri_sub(x, from = i, to = i) <- paste0("*", char)
         n <- n + 1L
         
-        ignore_i_start[ignore_i_start > i] <- ignore_i_start[ignore_i_start > i] + 1L
-        ignore_i_body[ignore_i_body > i] <- ignore_i_body[ignore_i_body > i] + 1L
+        rng_fnc$start[rng_fnc$start > i] <- rng_fnc$start[rng_fnc$start > i] + 1L
+        rng_fnc$body[rng_fnc$body > i] <- rng_fnc$body[rng_fnc$body > i] + 1L
+        
+        rng_cnst$start[rng_cnst$start > i] <- rng_cnst$start[rng_cnst$start > i] + 1L
+        rng_cnst$body[rng_cnst$body > i] <- rng_cnst$body[rng_cnst$body > i] + 1L
       }
     }
     
@@ -164,9 +189,11 @@ insert_product_advanced <- function(x,
 #' 
 #' @export
 make_products_explicit <- function(x, 
-                                   allowed_functions = getGroupMembers("Math")) {
+                                   allowed_functions = getGroupMembers("Math"),
+                                   allowed_constants = c("pi")) {
   
   return(insert_product_advanced(x = x, 
-                                 allowed_functions = allowed_functions))
+                                 allowed_functions = allowed_functions, 
+                                 allowed_constants = allowed_constants))
   
 }

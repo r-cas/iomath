@@ -3,6 +3,10 @@ test_that("smoke", {
   expect_equal(4.4, safe_eval("x", vars = list(x = 4.4)))
 })
 
+test_that("pi", {
+  expect_equal(2 * pi, safe_eval("2 * pi"))
+})
+
 test_that("comma", {
   expect_equal(2.2, safe_eval("2,2"))
   expect_error(safe_eval("2,2", replace_comma = FALSE))
