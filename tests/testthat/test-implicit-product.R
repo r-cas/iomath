@@ -56,6 +56,7 @@ y_adv <- list(
   
   c("2pi", "2*pi"),
   c("2pi(2+1)", "2*pi*(2+1)"),
+  c("2pi^2", "2*pi^2"),
   
   c("3sin(cos(2x)+1)", "3*sin(cos(2*x)+1)"), # allowed for numbers
   c("xsin(1)", "x*s*i*n*(1)") # not allowed for variables
@@ -106,6 +107,7 @@ y_numeric <- list(
   
   c("2pi", "2*pi"),
   c("2pi(2+1)", "2*pi*(2+1)"),
+  c("2pi^2", "2*pi^2"),
   
   c("-(2+1x)", "-(2+1*x)"), 
   c("(1+2)(2+1)", "(1+2)*(2+1)"),
