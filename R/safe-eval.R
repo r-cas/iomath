@@ -18,6 +18,31 @@ get_safe_env_copy <- function() {
   return(new_safe_env)
 }
 
+#' Prepare input
+#' 
+#' @export
+prepare_input <- function(x, 
+                      replace_comma = TRUE,
+                      insert_products = TRUE,
+                      allowed_functions = getGroupMembers("Math")) {
+  
+  # Remove everything after ";"
+  x2 <- gsub("^([^;]*).*$", "\\1", x)
+  
+  x2 <- tolower(x2)
+  
+  if (replace_comma) {
+    x2 <- gsub(",", ".", x2, fixed = TRUE)
+  }
+  
+  if (insert_products) {
+    x2 <- make_products_explicit(x = x2, 
+                                 allowed_functions = allowed_functions)
+  }
+  
+  return(x2)
+}
+
 #' Safely eval a string as an expression
 #' 
 #' @param x string to evaluate
@@ -49,19 +74,10 @@ safe_eval <- function(x,
     new_safe_env[[ vars_names[var_i] ]] <- vars[[var_i]]
   }
   
-  # Remove everything after ";"
-  x2 <- gsub("^([^;]*).*$", "\\1", x)
-  
-  x2 <- tolower(x2)
-  
-  if (replace_comma) {
-    x2 <- gsub(",", ".", x2, fixed = TRUE)
-  }
-  
-  if (insert_products) {
-    x2 <- make_products_explicit(x = x2, 
-                                 allowed_functions = allowed_functions)
-  }
+  x2 <- prepare_input(x, 
+                      replace_comma = replace_comma,
+                      insert_products = insert_products,
+                      allowed_functions = allowed_functions)
   
   y <- parse(text = x2)
   y_vars <- all.vars(y)

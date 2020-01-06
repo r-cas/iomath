@@ -54,7 +54,8 @@ y_adv <- list(
   c("sin(2+1)+x(y+1)", "sin(2+1)+x*(y+1)"),
   c("sin(2x+1)", "sin(2*x+1)"),
   
-  c("3sin(cos(2x)+1)", "3*sin(cos(2*x)+1)")
+  c("3sin(cos(2x)+1)", "3*sin(cos(2*x)+1)"), # allowed for numbers
+  c("xsin(1)", "x*s*i*n*(1)") # not allowed for variables
 )
 
 # insert_product_advanced("3sin(cos(2x)+1)")
