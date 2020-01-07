@@ -5,6 +5,14 @@ safe_constants <- c(
   "pi"
 )
 
+#' Get safe constants
+#' 
+#' @export
+get_safe_constants <- function() {
+  x <- safe_constants
+  return(x)
+}
+
 safe_functions <- c(
   "(",
   getGroupMembers("Math"),

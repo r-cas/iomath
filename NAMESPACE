@@ -2,6 +2,7 @@
 
 export(btex)
 export(compare_reply_answer)
+export(get_safe_constants)
 export(hbtex)
 export(make_products_explicit)
 export(prepare_input)
