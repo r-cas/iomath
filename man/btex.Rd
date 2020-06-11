@@ -7,7 +7,7 @@
 btex(x, brackets = list(c("\\\\{", "\\\\}"), c("[", "]"), c("(", ")")))
 }
 \arguments{
-\item{x}{yac_symbol}
+\item{x}{A tex string}
 
 \item{brackets}{Symbols to use as brackets. Reused as necesary.}
 }
@@ -15,8 +15,8 @@ btex(x, brackets = list(c("\\\\{", "\\\\}"), c("[", "]"), c("(", ")")))
 Make brackets to different types.
 }
 \examples{
-e <- Ryacas::ysym("((2*Sin(2+x))^2 + (a+b)^2)^3")
-Ryacas::tex(e)
-btex(e)
-hbtex(e)
+x <- paste0("\\\\left( \\\\left( 2 \\\\sin \\\\left( x + 2\\\\right) \\\\right)  ^{2} + ",
+            "\\\\left( a + b\\\\right)  ^{2}\\\\right)  ^{3}")
+btex(x)
+hbtex(x)
 }

@@ -97,15 +97,14 @@ replace_brackets <- function(x,
 #' 
 #' Make brackets to different types.
 #' 
-#' @param x yac_symbol
+#' @param x A tex string
 #' @param brackets Symbols to use as brackets. Reused as necesary.
 #' 
 #' @examples 
-#' e <- Ryacas::ysym("((2*Sin(2+x))^2 + (a+b)^2)^3")
-#' Ryacas::tex(e)
-#' btex(e)
-#' hbtex(e)
-#' @importFrom Ryacas tex
+#' x <- paste0("\\left( \\left( 2 \\sin \\left( x + 2\\right) \\right)  ^{2} + ",
+#'             "\\left( a + b\\right)  ^{2}\\right)  ^{3}")
+#' btex(x)
+#' hbtex(x)
 #' @export
 btex <- function(x, 
                  brackets = list(
@@ -113,12 +112,10 @@ btex <- function(x,
                    c("[", "]"),
                    c("(", ")")
                  )) {
-  stopifnot(is(x, "yac_symbol"))
   
-  o <- Ryacas::tex(x)
-  o2 <- replace_brackets(o, brackets = brackets)
+  o <- replace_brackets(x, brackets = brackets)
   
-  return(o2)
+  return(o)
 }
 
 #' Make hard brackets
@@ -126,17 +123,21 @@ btex <- function(x,
 #' @inheritParams btex
 #' 
 #' @examples 
-#' A <- Ryacas::ysym(matrix(1:9, 3, 3))
-#' Ryacas::tex(A)
-#' btex(A)
-#' hbtex(A)
-#' @importFrom Ryacas tex
+#' x <- paste0("\\left( \\left( 2 \\sin \\left( x + 2\\right) \\right)  ^{2} + ",
+#'             "\\left( a + b\\right)  ^{2}\\right)  ^{3}")
+#' btex(x)
+#' hbtex(x)
+#' 
+#' if (requireNamespace("Ryacas", quiet = TRUE)) {
+#'   A <- Ryacas::ysym(matrix(1:9, 3, 3))
+#'   x <- Ryacas::tex(A)
+#'   x
+#'   btex(x)
+#'   hbtex(x)
+#' }
 #' @export
 hbtex <- function(x) {
-  stopifnot(is(x, "yac_symbol"))
-  
-  o <- Ryacas::tex(x)
-  o <- gsub("\\left(", "\\left[", o, fixed = TRUE)
+  o <- gsub("\\left(", "\\left[", x, fixed = TRUE)
   o <- gsub("\\right)", "\\right]", o, fixed = TRUE)
 
   return(o)

@@ -1,26 +1,27 @@
 Package: iomath
-Version: 0.0.0.9001
+Version: 0.0.0.9101
 Title: Input/Output Tools for Handling Symbolic Math
 Authors@R: c(
     person(given = "Mikkel Meyer", family = "Andersen",
-        email = "mikl@math.aau.dk", role = c("aut", "cre", "cph"))
-  )
+           email = "mikl@math.aau.dk", role = c("aut", "cre", "cph"))
+    )
 Maintainer: Mikkel Meyer Andersen <mikl@math.aau.dk>
 Encoding: UTF-8
 Description: Input/output tools for using symbolic math.
 Depends: R (>= 3.3.0)
 Imports:
-    Ryacas (>= 1.1.1),
     stringi, 
     dequer
 Suggests: 
     testthat (>= 2.1.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    Ryacas (>= 1.1.2),
+    caracas (>= 0.0.1.9142)
 License: GPL
 SystemRequirements: C++11
 URL: https://github.com/r-cas/iomath
 BugReports: https://github.com/r-cas/iomath/issues
 Roxygen: list(markdown = TRUE, roclets = c("rd", "collate", "namespace"))
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 VignetteBuilder: knitr

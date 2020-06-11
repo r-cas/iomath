@@ -1,5 +1,6 @@
 test_that("compare input", {
-  expect_error(compare_reply_answer(reply = "2.2", answer = "2.2")) # yac_symbol
+  expect_error(compare_reply_answer(reply = "2.2", 
+                                    answer = "2.2")) # answer must be Ryacas::ysym/caracas::caracas_symbol
 })
 
 test_that("compare simple", {
@@ -20,7 +21,7 @@ test_that("compare ans_tol", {
 
 test_that("compare single (with x)", {
   expect_true(compare_reply_answer(reply = "2.2*x^2", 
-                                   answer = Ryacas::ysym("2.2*x^2"), 
+                                   answer = Ryacas::ysym("2.2*x^2"),
                                    compare_grid = expand.grid(x = seq(-10, 10, length.out = 10))))
   expect_false(compare_reply_answer(reply = "2.3*x^2", 
                                     answer = Ryacas::ysym("2.2*x^2"), 
@@ -43,21 +44,20 @@ test_that("compare single (with x/y/z)", {
   
 
 test_that("compare matrix (with x)", {
-  m <- matrix(c("2", "2*x", "3", "1.1*x^2"), 2, 2)
-  y <- Ryacas::ysym(m)
+  m <- matrix(c("2", "2*x", "3", "1.1*x^2", "4", "4"), nrow = 3, ncol = 2)
   
   expect_true(compare_reply_answer(reply = m, 
-                                   answer = y, 
+                                   answer = Ryacas::ysym(m), 
                                    compare_grid = expand.grid(x = seq(-10, 10, length.out = 5))))
   
   m2 <- apply(m, 2, paste0, '+0.0001')
   expect_true(compare_reply_answer(reply = m2, 
-                                   answer = y, 
+                                   answer = Ryacas::ysym(m2), 
                                    compare_grid = expand.grid(x = seq(-10, 10, length.out = 5))))
   
   m2 <- apply(m, 2, paste0, '+0.01')
   expect_false(compare_reply_answer(reply = m2, 
-                                    answer = y, 
+                                    answer = Ryacas::ysym(m), 
                                     compare_grid = expand.grid(x = seq(-10, 10, length.out = 5))))
 })
 

@@ -15,9 +15,9 @@ compare_reply_answer(
 )
 }
 \arguments{
-\item{reply}{user-provided reply as string}
+\item{reply}{user-provided reply as string/character matrix (will be evaluated safely)}
 
-\item{answer}{the true answer provided as \code{yac_symbol}}
+\item{answer}{the true answer provided as an \code{R} expression (or list of list of expressions; first level are columns, then rows)}
 
 \item{compare_grid}{grid to perform comparisons on; must have columns}
 
@@ -34,16 +34,23 @@ The comparison is done via a numerical grid.
 }
 \examples{
 compare_reply_answer(reply = "2yx^2", 
-                     answer = Ryacas::ysym("2*y*x^2"), 
+                     answer = expression("2*y*x^2"), 
                      compare_grid = expand.grid(x = seq(-10, 10, len = 10), 
                                                 y = seq(-10, 10, len = 10)))
 compare_reply_answer(reply = "2.1yx^2", 
-                     answer = Ryacas::ysym("2*y*x^2"), 
+                     answer = expression("2*y*x^2"), 
                      compare_grid = expand.grid(x = seq(-10, 10, len = 10), 
                                                 y = seq(-10, 10, len = 10)))
 compare_reply_answer(reply = "2yx^2+0.01", 
-                     answer = Ryacas::ysym("2*y*x^2"), 
+                     answer = expression("2*y*x^2"), 
                      compare_grid = expand.grid(x = seq(-10, 10, len = 10), 
                                                 y = seq(-10, 10, len = 10)), 
+                     ans_tol = 1)
+                     
+rep <- matrix(c("(1+1)*x", "3*x"), nrow = 1, ncol = 2)
+ans <- list(list(expression(2*x)), list(expression(3*x)))
+compare_reply_answer(reply = rep,
+                     answer = ans,
+                     compare_grid = expand.grid(x = seq(-10, 10, len = 10)),
                      ans_tol = 1)
 }

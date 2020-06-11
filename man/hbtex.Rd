@@ -7,14 +7,22 @@
 hbtex(x)
 }
 \arguments{
-\item{x}{yac_symbol}
+\item{x}{A tex string}
 }
 \description{
 Make hard brackets
 }
 \examples{
-A <- Ryacas::ysym(matrix(1:9, 3, 3))
-Ryacas::tex(A)
-btex(A)
-hbtex(A)
+x <- paste0("\\\\left( \\\\left( 2 \\\\sin \\\\left( x + 2\\\\right) \\\\right)  ^{2} + ",
+            "\\\\left( a + b\\\\right)  ^{2}\\\\right)  ^{3}")
+btex(x)
+hbtex(x)
+
+if (requireNamespace("Ryacas", quiet = TRUE)) {
+  A <- Ryacas::ysym(matrix(1:9, 3, 3))
+  x <- Ryacas::tex(A)
+  x
+  btex(x)
+  hbtex(x)
+}
 }
