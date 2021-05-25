@@ -5,6 +5,7 @@ test_that("smoke", {
 
 test_that("pi", {
   expect_equal(2 * pi, safe_eval("2 * pi"))
+  expect_error(safe_eval("pipi"))
 })
 
 test_that("comma", {
@@ -32,6 +33,12 @@ test_that("multiple statements ignored", {
 test_that("cannot print", {
   expect_error(safe_eval("cat(2.2)"))
   expect_error(safe_eval("print(2.2)"))
+})
+
+test_that("repeated function calls", {
+    expect_equal(sqrt(1+sqrt(5)), safe_eval("sqrt(1+sqrt(x))", list(x=5)))
+    expect_equal(exp(2)+exp(4), safe_eval("exp(2)+exp(4)"))
+    expect_error(safe_eval("sqrtsqrt(5)"))
 })
 
 
