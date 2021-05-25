@@ -53,53 +53,42 @@ insert_product_simple <- function(x) {
 
 
 get_ranges <- function(patterns, haystack, require_open_bracket = TRUE) {
-  ignore_i_ranges_lst <- lapply(patterns, function(y) {
+    ignore_i_start <- c()
+    ignore_i_body <- c()
     
-    #patn <- paste0("^(^|.*[^A-Za-z]+)(", y, ")\\(") # start or something else than characters
-    
-    patn <- if (require_open_bracket) {
-      paste0("^(^|.*[^A-Za-z]+)(", y, ")(\\(.*)") # start or something else than characters
-    } else {
-      paste0("^(^|.*[^A-Za-z]+)(", y, ")($|[^A-Za-z]+.*)") 
+    for(p in patterns) {
+        re <- if (require_open_bracket) {
+                  paste0("(?:\\b|[0-9])", p, "\\(")
+              } else {
+                  paste0("(?:\\b|[0-9])", p, "\\b") 
+              }
+
+        ## Find all matches in haystack
+        matches <- gregexpr(re, haystack)
+
+        if(matches[[1L]][1] == -1L) {
+            ## Regexp was not found in haystack
+            next
+        }
+
+        ## For each match, determine the starting and ending positions
+        ## (this depends on the matched prefix and whether opening
+        ## bracket is required)
+        for(i in seq_along(matches[[1L]])){
+            end <- matches[[1L]][i] + attr(matches[[1L]],"match.length")[i] - 1L
+            if(require_open_bracket){
+                end <- end - 1L
+            }
+            
+            start <- end - nchar(p) + 1L
+            
+            ignore_i_start <- c(ignore_i_start, start)
+            ignore_i_body <- c(ignore_i_body, seq(start+1, end))
+        }
     }
-    
-    res <- regexec(patn, haystack)
-    res <- res[[1L]] 
-    
-    if (length(res) == 1L && res == -1L) {
-      return(NULL)
-    }
-    
-    if (length(res) != 4L) {
-      return(NULL)
-    }
-    
-    return(res)
-  })
-  
-  # ignore_i_ranges_lst[allowed_functions %in% c("cos", "sin")]
-  ignore_i_start <- unlist(lapply(ignore_i_ranges_lst, function(y) {
-    if (is.null(y)) {
-      return(NULL)
-    }
-    
-    #return(as.integer(y))
-    return(as.integer(y[3L]))
-  }))
-  # ignore_i_start
-  
-  ignore_i_body <- unlist(lapply(ignore_i_ranges_lst, function(y) {
-    if (is.null(y)) {
-      return(NULL)
-    }
-    
-    #return(seq(y + 1L, y + attr(y, "match.length") - 1L))
-    return(seq(y[3L] + 1L, y[3L] + attr(y, "match.length")[3L] - 1L))
-  }))
-  
+
   return(list(start = ignore_i_start,
               body = ignore_i_body))
-  #ignore_i_body
 }
 
 #' @importFrom stringi stri_sub
