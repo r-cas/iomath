@@ -36,7 +36,7 @@ test_that("cannot print", {
 })
 
 test_that("repeated function calls", {
-    expect_equal(sqrt(1+sqrt(5)), safe_eval("sqrt(1+sqrt(x))", list(x=5)))
+    expect_equal(sqrt(1+2*sqrt(5)), safe_eval("sqrt(1+2sqrt(x))", list(x=5)))
     expect_equal(exp(2)+exp(4), safe_eval("exp(2)+exp(4)"))
     expect_error(safe_eval("sqrtsqrt(5)"))
 })
